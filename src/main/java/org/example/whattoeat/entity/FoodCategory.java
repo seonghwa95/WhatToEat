@@ -1,24 +1,20 @@
 package org.example.whattoeat.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-public enum FoodCategory {
-    KOREAN("한식"),
-    CHINESE("중식"),
-    JAPANESE("일식"),
-    WESTERN("양식"),
-    INDIAN("인도식"),
-    MEXICAN("멕시칸");
+@Entity
+public class FoodCategory {
 
-    private final String description;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    FoodCategory(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    @OneToOne(mappedBy = "category")
+    private Food food;
 }

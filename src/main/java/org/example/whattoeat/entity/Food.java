@@ -1,14 +1,15 @@
 package org.example.whattoeat.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Food {
 
     @Id
-    private Long foodId;
+    @GeneratedValue
+    private Long id;
 
+    @OneToOne(mappedBy = "food", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private FoodCategory category;
 
     private String imagePath;
