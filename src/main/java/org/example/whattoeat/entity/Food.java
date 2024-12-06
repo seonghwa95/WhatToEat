@@ -1,16 +1,22 @@
 package org.example.whattoeat.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Food {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Long foodId;
 
-    @OneToOne(mappedBy = "food", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private FoodCategory category;
+    private String foodName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private FoodCategory foodCategory;
 
     private String imagePath;
 }
