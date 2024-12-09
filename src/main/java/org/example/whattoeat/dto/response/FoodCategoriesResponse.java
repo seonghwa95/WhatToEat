@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class FoodCategoryResponse {
+public class FoodCategoriesResponse {
 
     private Long foodCategoryId;
     private String foodCategoryName;
