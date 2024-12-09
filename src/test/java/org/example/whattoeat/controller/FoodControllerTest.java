@@ -1,7 +1,5 @@
 package org.example.whattoeat.controller;
 
-import jakarta.persistence.EntityManager;
-import org.example.whattoeat.dto.response.FoodCategoryResponse;
 import org.example.whattoeat.entity.Food;
 import org.example.whattoeat.entity.FoodCategory;
 import org.example.whattoeat.repository.FoodCategoryRepository;
@@ -16,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,6 +47,7 @@ class FoodControllerTest {
     void getAllCategories() throws Exception {
         // given
         foodCategoryRepository.save(new FoodCategory("한식"));
+        foodCategoryRepository.save(new FoodCategory("양식"));
 
         // when
         mockMvc.perform(get("/categories")
@@ -61,6 +58,28 @@ class FoodControllerTest {
                 .andDo(print());
 
         // then
-        assertEquals(1L, foodCategoryRepository.count());
+        assertEquals(2L, foodCategoryRepository.count());
+    }
+
+    @Test
+    @DisplayName("선택한 카테고리내에 있는 모든 음식을 반환한다")
+    void getAllFoodsByCategory() throws Exception {
+        // given
+        foodCategoryRepository.save(new FoodCategory("한식"));
+        FoodCategory foodCategory = foodCategoryRepository.findById(1L)
+                .orElseThrow();
+        foodRepository.save(new Food("된장찌개", foodCategory));
+        foodRepository.save(new Food("김치찌개", foodCategory));
+
+        // when
+        mockMvc.perform(get("/categories/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        // then
+        assertEquals(2L, foodRepository.count());
     }
 }
