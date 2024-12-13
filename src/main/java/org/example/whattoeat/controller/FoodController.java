@@ -1,28 +1,35 @@
 package org.example.whattoeat.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.whattoeat.dto.request.FoodCategorySaveRequest;
 import org.example.whattoeat.dto.response.FoodCategoriesResponse;
 import org.example.whattoeat.dto.response.FoodsByCategoryResponse;
+import org.example.whattoeat.global.response.ApiSuccessResponse;
 import org.example.whattoeat.service.FoodService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api")
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class FoodController {
 
     private final FoodService foodService;
 
     @GetMapping("/categories")
-    public ResponseEntity<List<FoodCategoriesResponse>> getAllFoodCategories() {
-        List<FoodCategoriesResponse> foodCategories = foodService.findAllFoodCategory();
+    public ResponseEntity<ApiSuccessResponse<List<FoodCategoriesResponse>>> getAllFoodCategories() {
+        List<FoodCategoriesResponse> foodCategoriesResponseList = foodService.findAllFoodCategory();
+        ApiSuccessResponse<List<FoodCategoriesResponse>> foodCategories = ApiSuccessResponse.from(foodCategoriesResponseList);
 
         return new ResponseEntity<>(foodCategories, HttpStatus.OK);
+    }
+
+    @PostMapping("/categories")
+    public void postFoodCategory(@RequestBody FoodCategorySaveRequest request) {
+        foodService.addFoodCategory(request);
     }
 
     @GetMapping("/categories/{categoryId}")

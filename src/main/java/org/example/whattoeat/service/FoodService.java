@@ -1,6 +1,7 @@
 package org.example.whattoeat.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.whattoeat.dto.request.FoodCategorySaveRequest;
 import org.example.whattoeat.dto.response.FoodsByCategoryResponse;
 import org.example.whattoeat.dto.response.FoodCategoriesResponse;
 import org.example.whattoeat.entity.Food;
@@ -33,6 +34,12 @@ public class FoodService {
         });
 
         return foodCategoryResponses;
+    }
+
+    public void addFoodCategory(FoodCategorySaveRequest request) {
+        FoodCategory foodCategory = request.toEntity();
+
+        foodCategoryRepository.save(foodCategory);
     }
 
     public List<FoodsByCategoryResponse> findAllFoodByCategory(Long categoryId) {
