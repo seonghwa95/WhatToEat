@@ -50,7 +50,7 @@ class FoodControllerTest {
         foodCategoryRepository.save(new FoodCategory("양식"));
 
         // when
-        mockMvc.perform(get("/categories")
+        mockMvc.perform(get("/api/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -72,7 +72,7 @@ class FoodControllerTest {
         foodRepository.save(new Food("김치찌개", foodCategory));
 
         // when
-        mockMvc.perform(get("/categories/1")
+        mockMvc.perform(get("/api/categories/1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())

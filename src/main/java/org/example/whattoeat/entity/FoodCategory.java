@@ -1,15 +1,13 @@
 package org.example.whattoeat.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class FoodCategory {
